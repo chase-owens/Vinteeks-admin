@@ -3,12 +3,10 @@ import App from '../App';
 import Dashboard from '../pages/Dashboard';
 import Inquiries from '../pages/Inquiries';
 import InquiryDetails from '../pages/InquiryDetails';
-
-// import { AdminLayout } from "./layouts/AdminLayout";
-// import { Inquiries } from "./routes/Inquiries";
-// import { Products } from "./routes/Products";
-// import { Modules } from "./routes/Modules";
-// import { Images } from "./routes/Images";
+import Products from '../pages/Products';
+import NewProduct from '../pages/NewProduct';
+import EditProduct from '../pages/EditProduct';
+import Images from '../pages/Images';
 
 <div>hello</div>;
 
@@ -31,7 +29,15 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: 'products',
-				element: <div>hello</div>
+				element: <Products />
+			},
+			{
+				path: 'products/new',
+				element: <NewProduct />
+			},
+			{
+				path: 'products/:id',
+				element: <EditProduct />
 			},
 			{
 				path: 'modules',
@@ -39,7 +45,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: 'images',
-				element: <div>hello</div>
+				element: <Images />
 			}
 		]
 	}
