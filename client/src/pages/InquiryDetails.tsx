@@ -64,10 +64,8 @@ const InquiryDetails: FC = () => {
 
 					<DetailRow label="Message" value={inquiry.message || '—'} />
 					<DetailRow label="Budget" value={inquiry.budget || '—'} />
-					<DetailRow label="Area" value={inquiry.generalArea || '—'} />
 					<DetailRow label="Room" value={inquiry.roomId || '—'} />
 					<DetailRow label="Category" value={inquiry.categoryId || '—'} />
-					<DetailRow label="Product" value={inquiry.productId || '—'} />
 				</div>
 
 				<aside className="space-y-4 rounded-lg border border-(--accent-border) p-5">
@@ -76,7 +74,7 @@ const InquiryDetails: FC = () => {
 					<DetailRow label="Name" value={inquiry.name} />
 					<DetailRow label="Email" value={inquiry.email || '—'} />
 					<DetailRow label="Phone" value={inquiry.phone || '—'} />
-					<DetailRow label="Preferred" value={inquiry.preferredContact} />
+					<DetailRow label="Preferred Contact" value={inquiry.preferredContact} />
 
 					<div className="pt-2">
 						<label className="mb-2 block text-sm text-muted-foreground">Status</label>

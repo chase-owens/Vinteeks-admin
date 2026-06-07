@@ -3,15 +3,22 @@ import type { Inquiry } from '../../../shared/types/Inquiry';
 import getInquiries from '../api/inquiries';
 import { useNavigate } from 'react-router-dom';
 
+const getTime = (date?: string) => {
+	const time = new Date(date || '').getTime();
+	return Number.isNaN(time) ? 0 : time;
+};
+
 const Inquiries: FC = () => {
 	const navigate = useNavigate();
 	const [inquiries, setInquiries] = useState<Inquiry[]>([]);
-	console.log('🚀 ~ Inquiries ~ inquiries:', inquiries);
 
 	useEffect(() => {
 		const loadInquiries = async () => {
-			const inquriesData = await getInquiries();
-			setInquiries(inquriesData);
+			const inquriesData = (await getInquiries()) as Inquiry[];
+			const sortedInquiries = inquriesData
+				.sort((a, b) => getTime(b.createdAt) - getTime(a.createdAt)) // newest first - should be able to fix at lamda dynamodb level
+				.filter(({ inquiryId }) => !!inquiryId); // remove old corrupted inquiries
+			setInquiries(sortedInquiries);
 		};
 
 		loadInquiries();
@@ -47,7 +54,7 @@ const Inquiries: FC = () => {
 							return (
 								<tr
 									onClick={() => navigate(`/inquiries/${inquiry.inquiryId}`)}
-									key={inquiry.inquiryId || inquiry.id}
+									key={inquiry.id}
 									className={`
 						border-t border-(--border)
 						transition-colors
