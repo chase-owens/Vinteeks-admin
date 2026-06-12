@@ -1,7 +1,8 @@
 import { useEffect, useState, type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { Product } from '../../../shared/types/Product';
-import { deleteProduct, getProducts } from '../api/products';
+import type { Product } from '../../../../shared/types/Product';
+import { deleteProduct, getProducts } from '../../api/products';
+import PageHeader from '../../components/PageHeader';
 
 const CONTENT_BASE_URL = import.meta.env.VITE_CONTENT_BASE_URL;
 
@@ -37,24 +38,15 @@ const Products: FC = () => {
 			window.alert('Failed to delete product.');
 		}
 	};
+
 	return (
 		<section className="space-y-4 p-6">
-			<div className="flex items-start justify-between gap-4">
-				<div>
-					<h1 className="text-2xl font-semibold">Products</h1>
-					<p className="text-sm text-muted-foreground">
-						Manage inventory, pricing, and product availability.
-					</p>
-				</div>
-
-				<button
-					type="button"
-					onClick={() => navigate('/products/new')}
-					className="rounded-md border border-(--accent-border) bg-(--accent-bg) px-4 py-2 text-sm font-medium text-(--accent) transition-colors hover:bg-(--accent-bg)/80"
-				>
-					Add Product
-				</button>
-			</div>
+			<PageHeader
+				actionLabel="Add Product"
+				description="Manage inventory, pricing, and product availability."
+				onAction={() => navigate('/products/new')}
+				title="Products"
+			/>
 
 			<div className="overflow-hidden rounded-lg border border-(--accent-border)">
 				<table className="w-full border-collapse text-left text-sm">
@@ -81,10 +73,12 @@ const Products: FC = () => {
 
 							const isAvailable = status === 'available';
 
+							const keyProp = `${product.id}-${product.name}`;
+
 							return (
 								<>
 									<tr
-										key={product.id}
+										key={keyProp}
 										onClick={() => toggleExpandedProduct(product.id)}
 										className={`
 										border-t border-(--border)
@@ -122,7 +116,7 @@ const Products: FC = () => {
 													type="button"
 													onClick={(event) => {
 														event.stopPropagation();
-														navigate(`/products/${product.id}}`);
+														navigate(`/products/${product.id}`);
 													}}
 													className="rounded-md px-3 py-1.5 text-xs font-medium text-(--accent) transition-colors hover:bg-(--accent-bg)"
 												>
@@ -155,8 +149,8 @@ const Products: FC = () => {
 															<div className="flex gap-3 overflow-x-auto pb-2">
 																{product.images.map((imageKey) => (
 																	<img
-																		key={imageKey}
-																		src={`${CONTENT_BASE_URL}/${imageKey}`}
+																		key={`${keyProp}-${imageKey}`}
+																		src={`${CONTENT_BASE_URL}${imageKey}`}
 																		alt={product.name}
 																		className="h-24 w-24 rounded-md border border-(--accent) object-cover"
 																	/>

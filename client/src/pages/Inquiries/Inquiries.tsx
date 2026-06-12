@@ -1,7 +1,8 @@
 import { useEffect, useState, type FC } from 'react';
-import type { Inquiry } from '../../../shared/types/Inquiry';
-import getInquiries from '../api/inquiries';
+import type { Inquiry } from '../../../../shared/types/Inquiry';
+import { getInquiries } from '../../api/inquiries';
 import { useNavigate } from 'react-router-dom';
+import PageHeader from '../../components/PageHeader';
 
 const getTime = (date?: string) => {
 	const time = new Date(date || '').getTime();
@@ -26,12 +27,7 @@ const Inquiries: FC = () => {
 
 	return (
 		<section className="space-y-4 p-6">
-			<div>
-				<h1 className="text-2xl font-semibold">Inquiries</h1>
-				<p className="text-sm text-muted-foreground">
-					Review customer requests and uploaded images.
-				</p>
-			</div>
+			<PageHeader description="Review customer requests and uploaded images." title="Inquiries" />
 
 			<div className="overflow-hidden rounded-lg border border-(--accent-border)">
 				<table className="w-full border-collapse text-left text-sm">

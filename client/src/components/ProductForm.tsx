@@ -14,6 +14,8 @@ const CONTENT_BASE_URL = import.meta.env.VITE_CONTENT_BASE_URL;
 
 type Props = {
 	product: Product;
+	isSubmitDisabled?: boolean;
+	onCancel?: () => void;
 	onChange: (product: Product) => void;
 	onSubmit: () => void;
 	submitLabel?: string;
@@ -38,7 +40,14 @@ const fieldClass =
 
 const labelClass = 'text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground';
 
-const ProductForm: FC<Props> = ({ product, onChange, onSubmit, submitLabel = 'Save Product' }) => {
+const ProductForm: FC<Props> = ({
+	isSubmitDisabled,
+	onCancel,
+	onChange,
+	onSubmit,
+	product,
+	submitLabel = 'Save Product'
+}) => {
 	const [images, setImages] = useState<ImageAsset[]>([]);
 	const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
 
@@ -335,13 +344,21 @@ const ProductForm: FC<Props> = ({ product, onChange, onSubmit, submitLabel = 'Sa
 				</div>
 			</div>
 
-			<div className="flex justify-end">
+			<div className="flex justify-end gap-4">
 				<button
 					type="button"
 					onClick={onSubmit}
 					className="rounded-md border border-(--accent-border) bg-(--accent-bg) px-5 py-2.5 text-sm font-medium text-(--accent)"
+					disabled={isSubmitDisabled}
 				>
 					{submitLabel}
+				</button>
+				<button
+					type="button"
+					onClick={onCancel}
+					className="rounded-md border border-(--accent-border)  px-5 py-2.5 text-sm font-medium text-(--accent)"
+				>
+					Cancel
 				</button>
 			</div>
 		</div>

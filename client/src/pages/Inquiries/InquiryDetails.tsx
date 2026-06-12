@@ -1,9 +1,8 @@
 import { useEffect, useState, type FC } from 'react';
-import type { Inquiry, InquiryStatus } from '../../../shared/types/Inquiry';
+import type { Inquiry, InquiryStatus } from '../../../../shared/types/Inquiry';
 import { useParams } from 'react-router-dom';
-import getInquiries from '../api/inquiries';
-import { DetailRow } from '../components/InquiryDetailRow';
-import { updateInquiry } from '../api/updateInquiry';
+import { getInquiries, updateInquiry } from '../../api/inquiries';
+import { DetailRow } from '../../components/InquiryDetailRow';
 
 type StatusOption = {
 	label: string;

@@ -1,8 +1,6 @@
 import Header from './components/Header';
 import { Outlet, useLocation } from 'react-router-dom';
 
-export type Page = 'products' | 'inquiries' | 'modules' | 'images';
-
 function App() {
 	const { pathname } = useLocation();
 

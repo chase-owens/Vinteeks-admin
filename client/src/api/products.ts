@@ -1,5 +1,3 @@
-// src/api/products.ts
-
 import type { Product } from '../../../shared/types/Product';
 
 export const getProducts = async () => {

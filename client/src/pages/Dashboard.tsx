@@ -1,6 +1,6 @@
 import { useEffect, useState, type FC } from 'react';
 import { getProducts } from '../api/products';
-import getInquiries from '../api/inquiries';
+import { getInquiries } from '../api/inquiries';
 import DashboardCard from '../components/DashboardCard';
 
 const Dashboard: FC = () => {
