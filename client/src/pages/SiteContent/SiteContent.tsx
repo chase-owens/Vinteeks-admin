@@ -272,7 +272,7 @@ const SiteContent: FC = () => {
 						</div>
 					</section>
 
-					<section className="rounded-lg border border-(--accent-border) p-6">
+					{/* <section className="rounded-lg border border-(--accent-border) p-6">
 						<h2 className="mb-2 text-lg font-semibold">Homepage Modules</h2>
 						<p className="mb-5 text-sm text-muted-foreground">
 							For now, edit the module JSON directly. This must stay as an array.
@@ -284,15 +284,14 @@ const SiteContent: FC = () => {
 							rows={18}
 							className={`${textareaClass} font-mono text-xs`}
 						/>
-					</section>
+					</section> */}
 				</div>
 
 				<aside className="space-y-6">
 					<section className="rounded-lg border border-(--accent-border) p-6">
 						<h2 className="mb-2 text-lg font-semibold">Theme</h2>
 						<p className="mb-5 text-sm text-muted-foreground">
-							Choose the active theme for the customer website. This is preview-only until
-							theme.json is wired.
+							Choose the active theme for the customer website.
 						</p>
 
 						<label className="space-y-2">
