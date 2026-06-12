@@ -21,6 +21,11 @@ type Props = {
 	submitLabel?: string;
 };
 
+const normalizeProductImagePath = (key: string) => (key.startsWith('/') ? key : `/${key}`);
+
+const getContentImageSrc = (key: string) =>
+	`${CONTENT_BASE_URL.replace(/\/$/, '')}/${key.replace(/^\//, '')}`;
+
 const categories: Category[] = [
 	'sofas',
 	'chairs',
@@ -236,7 +241,7 @@ const ProductForm: FC<Props> = ({
 										className="overflow-hidden rounded-md border border-(--accent-border)"
 									>
 										<img
-											src={`${CONTENT_BASE_URL}/${imageKey}`}
+											src={`${CONTENT_BASE_URL}${imageKey}`}
 											alt={imageKey}
 											className="h-32 w-full object-cover"
 										/>
@@ -279,13 +284,15 @@ const ProductForm: FC<Props> = ({
 
 									<div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
 										{images.map((image) => {
-											const isSelected = product.images.includes(image.key);
+											const productImagePath = normalizeProductImagePath(image.key);
+											const imageSrc = getContentImageSrc(image.key);
+											const isSelected = product.images.includes(productImagePath);
 
 											return (
 												<button
 													key={image.key}
 													type="button"
-													onClick={() => addImage(image.key)}
+													onClick={() => addImage(productImagePath)}
 													className={`overflow-hidden rounded-lg border text-left transition ${
 														isSelected
 															? 'border-(--accent) bg-(--accent-bg)'
@@ -293,7 +300,7 @@ const ProductForm: FC<Props> = ({
 													}`}
 												>
 													<img
-														src={`${CONTENT_BASE_URL}/${image.key}`}
+														src={imageSrc}
 														alt={image.fileName}
 														className="h-40 w-full object-cover"
 													/>
