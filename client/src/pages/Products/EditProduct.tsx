@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import ProductForm from '../components/ProductForm';
-import { editProduct, getProducts } from '../api/products';
-import type { Product } from '../../../shared/types/Product';
+import ProductForm from '../../components/ProductForm';
+import { editProduct, getProducts } from '../../api/products';
+import type { Product } from '../../../../shared/types/Product';
+import PageHeader from '../../components/PageHeader';
 
 const EditProduct = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const [product, setProduct] = useState<Product | null>(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	useEffect(() => {
 		const loadProduct = async () => {
@@ -25,6 +27,7 @@ const EditProduct = () => {
 
 	const handleSave = async () => {
 		if (!product) return;
+		setIsSubmitting(true);
 
 		await editProduct(product.id, product);
 		navigate('/products');
@@ -36,18 +39,15 @@ const EditProduct = () => {
 
 	return (
 		<section className="space-y-4 p-6">
-			<div>
-				<h1 className="text-2xl font-semibold">Edit Product</h1>
-				<p className="text-sm text-muted-foreground">
-					Update inventory, pricing, and availability.
-				</p>
-			</div>
+			<PageHeader description="Update inventory, pricing, and availability." title="Edit Product" />
 
 			<ProductForm
-				product={product}
+				isSubmitDisabled={isSubmitting}
+				onCancel={() => navigate('/products')}
 				onChange={setProduct}
 				onSubmit={handleSave}
-				submitLabel="Save Changes"
+				product={product}
+				submitLabel={isSubmitting ? 'Submitting...' : 'Save Changes'}
 			/>
 		</section>
 	);

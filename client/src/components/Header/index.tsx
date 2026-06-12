@@ -1,7 +1,8 @@
 import type { FC } from 'react';
-import type { Page } from '../../App';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
+
+export type Page = 'content' | 'products' | 'inquiries' | 'treasures' | 'images' | 'reviews';
 
 type NavButton = {
 	label: string;
@@ -10,9 +11,11 @@ type NavButton = {
 };
 
 const navButtons: NavButton[] = [
+	{ label: 'content', path: '/content', value: 'content' },
 	{ label: 'products', path: '/products', value: 'products' },
 	{ label: 'inquiries', path: '/inquiries', value: 'inquiries' },
-	{ label: 'modules', path: '/modules', value: 'modules' },
+	{ label: 'treasures', path: '/treasures', value: 'treasures' },
+	{ label: 'reviews', path: '/reviews', value: 'reviews' },
 	{ label: 'images', path: '/images', value: 'images' }
 ];
 

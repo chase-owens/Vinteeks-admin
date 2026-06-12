@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ProductForm from '../components/ProductForm';
-import { createProduct } from '../api/products';
-import type { Product } from '../../../shared/types/Product';
+import ProductForm from '../../components/ProductForm';
+import { createProduct } from '../../api/products';
+import type { Product } from '../../../..//shared/types/Product';
+import PageHeader from '../../components/PageHeader';
 
 const createProductId = (name: string) => {
 	const slug = name
@@ -17,6 +18,7 @@ const createProductId = (name: string) => {
 
 const NewProduct = () => {
 	const navigate = useNavigate();
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const [product, setProduct] = useState<Product>({
 		id: '',
@@ -39,6 +41,8 @@ const NewProduct = () => {
 			return;
 		}
 
+		setIsSubmitting(true);
+
 		try {
 			const now = new Date().toISOString();
 
@@ -59,16 +63,15 @@ const NewProduct = () => {
 
 	return (
 		<section className="space-y-4 p-6">
-			<div>
-				<h1 className="text-2xl font-semibold">Add Product</h1>
-				<p className="text-sm text-muted-foreground">Create a new inventory item.</p>
-			</div>
+			<PageHeader description="Create a new inventory item." title="Add Product" />
 
 			<ProductForm
-				product={product}
+				isSubmitDisabled={isSubmitting}
+				onCancel={() => navigate('/products')}
 				onChange={setProduct}
 				onSubmit={handleCreate}
-				submitLabel="Create Product"
+				product={product}
+				submitLabel={isSubmitting ? 'Submitting...' : 'Create Product'}
 			/>
 		</section>
 	);
