@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from 'react';
+import { useEffect, useMemo, useState, type FC } from 'react';
 import { getRootContent, updateRootContent } from '../../api/content';
 import type { Cta, RootContent } from '../../../../shared/types/Content';
 import PageHeader from '../../components/PageHeader';
@@ -24,6 +24,7 @@ const emptyCta: Cta = {
 	variant: 'primary'
 };
 
+type Form = { activeTheme: ThemeId } & RootContent;
 const SiteContent: FC = () => {
 	const [rootContent, setRootContent] = useState<RootContent | null>(null);
 	const [modulesText, setModulesText] = useState('');
@@ -33,6 +34,7 @@ const SiteContent: FC = () => {
 	const [selectedTheme, setSelectedTheme] = useState<ThemeId>('navy-red');
 	const [images, setImages] = useState<ImageAsset[]>([]);
 	const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
+	const [initialForm, setInitialForm] = useState<Form | null>(null);
 
 	useEffect(() => {
 		const loadRootContent = async () => {
@@ -44,6 +46,7 @@ const SiteContent: FC = () => {
 				]);
 
 				setRootContent(content);
+				setInitialForm({ ...content, ...themeData });
 				setModulesText(JSON.stringify(content.modules ?? [], null, 2));
 				setImages(imageData);
 				setSelectedTheme(themeData.activeTheme);
@@ -131,6 +134,24 @@ const SiteContent: FC = () => {
 		}
 	};
 
+	const hasEdits = useMemo(() => {
+		if (!rootContent || !initialForm) {
+			return;
+		}
+
+		const isThemeDifferent = selectedTheme !== initialForm.activeTheme;
+
+		const { title, subTitle, description } = rootContent.hero;
+		const { hero: initialHero } = initialForm;
+
+		const hasHeroChanges =
+			title !== initialHero.title ||
+			subTitle !== initialHero.subTitle ||
+			description !== initialHero.description;
+
+		return hasHeroChanges || isThemeDifferent;
+	}, [rootContent, selectedTheme, initialForm]);
+
 	if (isLoading) {
 		return (
 			<div className="text-sm text-muted-foreground space-y-4 p-6">Loading site content...</div>
@@ -147,9 +168,9 @@ const SiteContent: FC = () => {
 	return (
 		<div className="space-y-4 p-6">
 			<PageHeader
-				actionLabel={isSaving ? 'Saving...' : 'Save Changes'}
+				actionLabel={isSaving ? 'Saving...' : !hasEdits ? 'No Changes to Save' : 'Save Changes'}
 				description="Update the homepage copy, calls to action, and active customer-web theme."
-				isActionDisabled={isSaving}
+				isActionDisabled={!hasEdits || isSaving}
 				onAction={handleSave}
 				title="Site Content"
 			/>
@@ -271,20 +292,6 @@ const SiteContent: FC = () => {
 							</label>
 						</div>
 					</section>
-
-					{/* <section className="rounded-lg border border-(--accent-border) p-6">
-						<h2 className="mb-2 text-lg font-semibold">Homepage Modules</h2>
-						<p className="mb-5 text-sm text-muted-foreground">
-							For now, edit the module JSON directly. This must stay as an array.
-						</p>
-
-						<textarea
-							value={modulesText}
-							onChange={(e) => setModulesText(e.target.value)}
-							rows={18}
-							className={`${textareaClass} font-mono text-xs`}
-						/>
-					</section> */}
 				</div>
 
 				<aside className="space-y-6">
