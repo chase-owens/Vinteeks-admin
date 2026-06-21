@@ -15,8 +15,6 @@ import NewTreasure from '../pages/Treasures/NewTreasure';
 import EditTreasure from '../pages/Treasures/EditTreasure';
 import SiteContent from '../pages/SiteContent/SiteContent';
 
-<div>hello</div>;
-
 export const router = createBrowserRouter([
 	{
 		path: '/',
