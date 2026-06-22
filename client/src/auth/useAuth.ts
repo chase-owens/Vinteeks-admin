@@ -8,7 +8,7 @@ export function useAuth() {
 
 		const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID;
 		const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN;
-		const logoutUri = `${window.location.origin}/login?logged_out=1`;
+		const logoutUri = `${window.location.origin}/login`;
 
 		window.location.href =
 			`${cognitoDomain}/logout` +
