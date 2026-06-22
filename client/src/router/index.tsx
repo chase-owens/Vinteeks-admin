@@ -1,5 +1,7 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
+import { ProtectedRoute } from '../auth/ProtectedRoute';
+
 import Dashboard from '../pages/Dashboard';
 import Inquiries from '../pages/Inquiries/Inquiries';
 import InquiryDetails from '../pages/Inquiries/InquiryDetails';
@@ -14,64 +16,35 @@ import EditReview from '../pages/Reviews/EditReview';
 import NewTreasure from '../pages/Treasures/NewTreasure';
 import EditTreasure from '../pages/Treasures/EditTreasure';
 import SiteContent from '../pages/SiteContent/SiteContent';
+import Login from '../pages/Login/Login';
 
 export const router = createBrowserRouter([
 	{
-		path: '/',
-		element: <App />,
+		path: '/login',
+		element: <Login />
+	},
+	{
+		element: <ProtectedRoute />,
 		children: [
 			{
-				index: true,
-				element: <Dashboard />
-			},
-			{ path: 'content', element: <SiteContent /> },
-			{
-				path: 'inquiries',
-				element: <Inquiries />
-			},
-			{
-				path: 'inquiries/:id',
-				element: <InquiryDetails />
-			},
-			{
-				path: 'products',
-				element: <Products />
-			},
-			{
-				path: 'products/new',
-				element: <NewProduct />
-			},
-			{
-				path: 'products/:id',
-				element: <EditProduct />
-			},
-			{
-				path: 'reviews',
-				element: <Reviews />
-			},
-			{
-				path: 'reviews/new',
-				element: <NewReview />
-			},
-			{
-				path: 'reviews/:id',
-				element: <EditReview />
-			},
-			{
-				path: 'treasures',
-				element: <Treasures />
-			},
-			{
-				path: 'treasures/new',
-				element: <NewTreasure />
-			},
-			{
-				path: 'treasures/:id',
-				element: <EditTreasure />
-			},
-			{
-				path: 'images',
-				element: <Images />
+				path: '/',
+				element: <App />,
+				children: [
+					{ index: true, element: <Dashboard /> },
+					{ path: 'content', element: <SiteContent /> },
+					{ path: 'inquiries', element: <Inquiries /> },
+					{ path: 'inquiries/:id', element: <InquiryDetails /> },
+					{ path: 'products', element: <Products /> },
+					{ path: 'products/new', element: <NewProduct /> },
+					{ path: 'products/:id', element: <EditProduct /> },
+					{ path: 'reviews', element: <Reviews /> },
+					{ path: 'reviews/new', element: <NewReview /> },
+					{ path: 'reviews/:id', element: <EditReview /> },
+					{ path: 'treasures', element: <Treasures /> },
+					{ path: 'treasures/new', element: <NewTreasure /> },
+					{ path: 'treasures/:id', element: <EditTreasure /> },
+					{ path: 'images', element: <Images /> }
+				]
 			}
 		]
 	}
