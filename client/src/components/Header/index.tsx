@@ -1,6 +1,7 @@
 import { useState, type FC } from 'react';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../auth/useAuth';
 
 export type Page = 'content' | 'products' | 'inquiries' | 'treasures' | 'images' | 'reviews';
 
@@ -24,6 +25,7 @@ type HeaderProps = {
 };
 
 const Header: FC<HeaderProps> = ({ currentRoute }) => {
+	const { signOut } = useAuth();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const closeMenu = () => setIsOpen(false);
@@ -58,6 +60,13 @@ const Header: FC<HeaderProps> = ({ currentRoute }) => {
 						{label}
 					</Link>
 				))}
+				<button
+					type="button"
+					onClick={signOut}
+					className="w-full px-4 text-left text-red-400 transition-colors hover:text-red-300"
+				>
+					Log Out
+				</button>
 			</nav>
 		</header>
 	);
